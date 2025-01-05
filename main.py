@@ -88,31 +88,27 @@ def predict(message):
     return llm_response + time_elapsed_str
 
 # Streamlit Interface
-def main():
-    # Set title and description
-    st.title("Gita AI using Mistral 7b")
-    st.write("Ask anything related to Bhagavad Gita and get an answer.")
+st.title("Gita AI using Mistral 7b")
 
-    # Provide examples for the user
-    st.sidebar.title("Examples")
-    examples = [
-        "Can you explain briefly what the Bhagavad Gita teaches about life and spirituality?",
-        "In a sentence, summarize the main message of the Bhagavad Gita.",
-        "Explain the plot of the Bhagavad Gita in a sentence.",
-        "How many chapters are there in the Bhagavad Gita, and what is the significance of each?",
-        "Write a 100-word article on 'Impact of Bhagavad Gita on Personal Development.'",
-    ]
-    for example in examples:
-        st.sidebar.button(example, on_click=lambda msg=example: st.session_state.user_input.update(msg))
+st.sidebar.title("Examples")
+examples = [
+    "Can you explain briefly what the Bhagavad Gita teaches about life and spirituality?",
+    "In a sentence, summarize the main message of the Bhagavad Gita.",
+    "Explain the plot of the Bhagavad Gita in a sentence.",
+    "How many chapters are there in the Bhagavad Gita, and what is the significance of each?",
+    "Write a 100-word article on 'Impact of Bhagavad Gita on Personal Development."
+]
+selected_example = st.sidebar.radio("Select an example to load", examples)
 
-    # Textbox for user input
-    user_input = st.text_input("Ask a question:", key="user_input")
+with st.sidebar.expander("Advanced Options"):
+    st.write("Configure additional settings here if needed.")
 
-    # Handle user input and display the answer
-    if user_input:
-        with st.spinner("Generating answer..."):
-            answer = predict(user_input)
-            st.write(answer)
+# Input Area
+st.write("## Chat with Gita AI")
+message = st.text_area("Enter your question:", selected_example)
 
-if __name__ == "__main__":
-    main()
+if st.button("Get Answer"):
+    with st.spinner("Generating response..."):
+        response = predict(message)
+        st.text_area("Response:", response, height=300)
+
