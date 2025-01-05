@@ -80,7 +80,9 @@ def predict(message):
     time_elapsed_str = f'\n\nTime elapsed: {time_elapsed} s'
     return llm_response + time_elapsed_str
 
-# Streamlit Interface
+import streamlit as st
+
+# Title and Sidebar
 st.title("Gita AI using Mistral 7b")
 
 st.sidebar.title("Examples")
@@ -89,18 +91,34 @@ examples = [
     "In a sentence, summarize the main message of the Bhagavad Gita.",
     "Explain the plot of the Bhagavad Gita in a sentence.",
     "How many chapters are there in the Bhagavad Gita, and what is the significance of each?",
-    "Write a 100-word article on 'Impact of Bhagavad Gita on Personal Development."
+    "Write a 100-word article on 'Impact of Bhagavad Gita on Personal Development.'"
 ]
 selected_example = st.sidebar.radio("Select an example to load", examples)
 
+# Advanced Options with dynamic settings
 with st.sidebar.expander("Advanced Options"):
-    st.write("Configure additional settings here if needed.")
+    token_limit = st.slider("Response Token Limit", 50, 500, 300, step=50)
+    temperature = st.slider("Response Creativity (Temperature)", 0.0, 1.0, 0.7, step=0.1)
+    st.write("Adjust these settings for more fine-tuned responses.")
 
-# Input Area
+# Chat Interface
 st.write("## Chat with Gita AI")
-message = st.text_area("Enter your question:", selected_example)
+message = st.text_area("Enter your question:", selected_example, placeholder="Type your question here...")
 
+# Interaction Button
 if st.button("Get Answer"):
-    with st.spinner("Generating response..."):
-        response = predict(message)
-        st.text_area("Response:", response, height=300)
+    if message.strip():
+        with st.spinner("Generating response..."):
+            response = predict(message, token_limit=token_limit, temperature=temperature)  # Add params to predict
+            st.text_area("Response:", response, height=300)
+    else:
+        st.warning("Please enter a question before clicking 'Get Answer'.")
+
+# Example Interaction
+if st.checkbox("Show Example Interaction"):
+    st.write("Here's an example interaction:")
+    st.text("Q: What is the main message of the Bhagavad Gita?\nA: The main message of the Bhagavad Gita is to fulfill one's duty with dedication, without attachment to results, and with devotion to the higher self.")
+
+# Footer Section
+st.markdown("---")
+st.markdown("Developed with ❤️ using [Streamlit](https://streamlit.io/).")
