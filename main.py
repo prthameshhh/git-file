@@ -107,4 +107,3 @@ if st.button("Get Answer"):
         response = predict(message)
         st.text_area("Response:", response, height=300)
 
-make interface interactive only 
