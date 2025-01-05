@@ -80,57 +80,30 @@ def predict(message):
     time_elapsed_str = f'\n\nTime elapsed: {time_elapsed} s'
     return llm_response + time_elapsed_str
 
-import streamlit as st
-
-import streamlit as st
-
-# Main title
+# Streamlit Interface
 st.title("Gita AI using Mistral 7b")
-
-# Sidebar for Examples
 st.sidebar.title("Examples")
-
-# Display examples in a card-like format
 examples = [
-    {
-        "title": "Teachings of the Gita",
-        "description": "Can you explain briefly what the Bhagavad Gita teaches about life and spirituality?"
-    },
-    {
-        "title": "Main Message",
-        "description": "In a sentence, summarize the main message of the Bhagavad Gita."
-    },
-    {
-        "title": "Plot Summary",
-        "description": "Explain the plot of the Bhagavad Gita in a sentence."
-    },
-    {
-        "title": "Chapters Overview",
-        "description": "How many chapters are there in the Bhagavad Gita, and what is the significance of each?"
-    },
-    {
-        "title": "Gita and Personal Growth",
-        "description": "Write a 100-word article on 'Impact of Bhagavad Gita on Personal Development.'"
-    }
+    "Can you explain briefly what the Bhagavad Gita teaches about life and spirituality?",
+    "In a sentence, summarize the main message of the Bhagavad Gita.",
+    "Explain the plot of the Bhagavad Gita in a sentence.",
+    "How many chapters are there in the Bhagavad Gita, and what is the significance of each?",
+    "Write a 100-word article on 'Impact of Bhagavad Gita on Personal Development."
 ]
-
-selected_example = None
-st.sidebar.write("### Select an example to load:")
-for example in examples:
-    if st.sidebar.button(example["title"]):
-        selected_example = example["description"]
-
-# Advanced Options
+st.subheader("Example Questions")
 with st.sidebar.expander("Advanced Options"):
     st.write("Configure additional settings here if needed.")
 
 # Input Area
 st.write("## Chat with Gita AI")
-message = st.text_area("Enter your question:", selected_example if selected_example else "")
+message = st.text_area("Enter your question:", selected_example)
 
 if st.button("Get Answer"):
     with st.spinner("Generating response..."):
         response = predict(message)
         st.text_area("Response:", response, height=300)
+
+make interface more interesting just by changing how examples are kept 
+ 
 
 
