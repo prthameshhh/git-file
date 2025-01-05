@@ -103,7 +103,6 @@ if st.button("Get Answer"):
         response = predict(message)
         st.text_area("Response:", response, height=300)
 
-make interface more interesting just by changing how examples are kept 
- 
+
 
 
