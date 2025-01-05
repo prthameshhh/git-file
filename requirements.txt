@@ -1,0 +1,8 @@
+streamlit
+langchain
+langchain-groq
+huggingface-hub
+sentence-transformers
+faiss-cpu
+numpy
+textwrap3
